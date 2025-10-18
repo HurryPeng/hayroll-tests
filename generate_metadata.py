@@ -1,5 +1,23 @@
 import json
+import re
 from pathlib import Path
+
+
+def has_int_main(file_path):
+    """Return True when the file contains a real int main definition."""
+    try:
+        content = Path(file_path).read_text(encoding="utf-8", errors="ignore")
+    except OSError:
+        return False
+
+    # Drop block and line comments to avoid false positives in comments.
+    content = re.sub(r"/\*.*?\*/", "", content, flags=re.S)
+    content = re.sub(r"//.*", "", content)
+
+    main_pattern = re.compile(
+        r"^\s*int\s+main\s*\([^)]*\)\s*(?:\{\s*|\n\s*\{)", re.MULTILINE
+    )
+    return bool(main_pattern.search(content))
 
 
 def find_test_files(project_path):
@@ -26,7 +44,7 @@ def find_test_files(project_path):
             rel_path = file.relative_to(project_dir)
             rel_path_str = str(rel_path).replace("\\", "/")
 
-            if rel_path_str not in seen_files:
+            if rel_path_str not in seen_files and has_int_main(file):
                 test_files.append(rel_path_str)
                 seen_files.add(rel_path_str)
 
@@ -36,7 +54,7 @@ def find_test_files(project_path):
             rel_path = file.relative_to(project_dir)
             rel_path_str = str(rel_path).replace("\\", "/")
 
-            if rel_path_str not in seen_files:
+            if rel_path_str not in seen_files and has_int_main(file):
                 test_files.append(rel_path_str)
                 seen_files.add(rel_path_str)
 
@@ -44,7 +62,7 @@ def find_test_files(project_path):
     root_test = project_dir / "test.c"
     if root_test.exists():
         rel_path_str = "test.c"
-        if rel_path_str not in seen_files:
+        if rel_path_str not in seen_files and has_int_main(root_test):
             test_files.append(rel_path_str)
 
     return sorted(test_files)

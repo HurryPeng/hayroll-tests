@@ -16,6 +16,133 @@
       ]
     },
     {
+      "name": "CircularBuffer",
+      "path": "CircularBuffer",
+      "test_files": [
+        "tests/test.c"
+      ]
+    },
+    {
+      "name": "FastHamming",
+      "path": "FastHamming",
+      "test_files": [
+        "test/coding.c",
+        "test/dummy.c",
+        "test/log2uint8.c"
+      ]
+    },
+    {
+      "name": "Genetic-neural-network-for-simple-control",
+      "path": "Genetic-neural-network-for-simple-control",
+      "test_files": []
+    },
+    {
+      "name": "Graph-recogniser",
+      "path": "Graph-recogniser",
+      "test_files": [
+        "tests/test-unit.c"
+      ]
+    },
+    {
+      "name": "Holdem-Odds",
+      "path": "Holdem-Odds",
+      "test_files": [
+        "src/tests/all_tests.c"
+      ]
+    },
+    {
+      "name": "LTRE",
+      "path": "LTRE",
+      "test_files": [
+        "test.c"
+      ]
+    },
+    {
+      "name": "Linear-Algebra-C",
+      "path": "Linear-Algebra-C",
+      "test_files": [
+        "test.c"
+      ]
+    },
+    {
+      "name": "Math-Library-in-C",
+      "path": "Math-Library-in-C",
+      "test_files": [
+        "test/tests.c"
+      ]
+    },
+    {
+      "name": "Megalania",
+      "path": "Megalania",
+      "test_files": [
+        "tests/main.c"
+      ]
+    },
+    {
+      "name": "NandC",
+      "path": "NandC",
+      "test_files": [
+        "tests/test.c"
+      ]
+    },
+    {
+      "name": "Phills_DHT",
+      "path": "Phills_DHT",
+      "test_files": [
+        "src/test/unit_tests/01_dht.c"
+      ]
+    },
+    {
+      "name": "Remimu",
+      "path": "Remimu",
+      "test_files": [
+        "my_regex_test.c"
+      ]
+    },
+    {
+      "name": "Simple-Config",
+      "path": "Simple-Config",
+      "test_files": [
+        "test/test.c"
+      ]
+    },
+    {
+      "name": "Simple-Sparsehash",
+      "path": "Simple-Sparsehash",
+      "test_files": [
+        "src/test.c"
+      ]
+    },
+    {
+      "name": "SimpleXML",
+      "path": "SimpleXML",
+      "test_files": [
+        "test.c"
+      ]
+    },
+    {
+      "name": "SlothLang",
+      "path": "SlothLang",
+      "test_files": [
+        "tests.c"
+      ]
+    },
+    {
+      "name": "VaultSync",
+      "path": "VaultSync",
+      "test_files": [
+        "test/main_test.c"
+      ]
+    },
+    {
+      "name": "XOpt",
+      "path": "XOpt",
+      "test_files": [
+        "test/macro-test.c",
+        "test/simple-test.c"
+      ]
+    },
+    {
       "name": "aes128-SIMD",
       "path": "aes128-SIMD",
       "test_files": [
@@ -71,8 +198,7 @@
       "name": "blt",
       "path": "blt",
       "test_files": [
-        "tests/blt_test.c",
-        "tests/cbt_bm.c"
+        "tests/blt_test.c"
       ]
     },
     {
@@ -82,7 +208,6 @@
         "tests/remove_bug.c",
         "tests/remove_bug_2.c",
         "tests/sanity.c",
-        "tests/test_helpers.c",
         "tests/timing.c"
       ]
     },
@@ -97,11 +222,7 @@
       "name": "c-aces",
       "path": "c-aces",
       "test_files": [
-        "tests/aces-internal-test.c",
-        "tests/common-test.c",
-        "tests/main-test.c",
-        "tests/matrix-test.c",
-        "tests/polynomial-test.c"
+        "tests/main-test.c"
       ]
     },
     {
@@ -120,6 +241,14 @@
       ]
     },
     {
+      "name": "cJSON",
+      "path": "cJSON",
+      "test_files": [
+        "tests/example.c",
+        "tests/main.c"
+      ]
+    },
+    {
       "name": "carrays",
       "path": "carrays",
       "test_files": [
@@ -130,7 +259,6 @@
       "name": "cfsm",
       "path": "cfsm",
       "test_files": [
-        "tests/Unity-2.5.2/src/unity.c",
         "tests/test_c_fsm.c"
       ]
     },
@@ -142,27 +270,12 @@
       ]
     },
     {
-      "name": "CircularBuffer",
-      "path": "CircularBuffer",
-      "test_files": [
-        "tests/test.c"
-      ]
-    },
-    {
       "name": "cissy",
       "path": "cissy",
       "test_files": [
         "test/test_csvfield.c",
         "test/test_csvline.c",
         "test/test_range.c"
-      ]
-    },
-    {
-      "name": "cJSON",
-      "path": "cJSON",
-      "test_files": [
-        "tests/example.c",
-        "tests/main.c"
       ]
     },
     {
@@ -228,15 +341,6 @@
       ]
     },
     {
-      "name": "FastHamming",
-      "path": "FastHamming",
-      "test_files": [
-        "test/coding.c",
-        "test/dummy.c",
-        "test/log2uint8.c"
-      ]
-    },
-    {
       "name": "fft",
       "path": "fft",
       "test_files": [
@@ -246,10 +350,7 @@
     {
       "name": "file2str",
       "path": "file2str",
-      "test_files": [
-        "tests/CuTest.c",
-        "tests/test_file2str.c"
-      ]
+      "test_files": []
     },
     {
       "name": "fleur",
@@ -269,27 +370,7 @@
     {
       "name": "fslib",
       "path": "fslib",
-      "test_files": [
-        "src/shortest.c",
-        "tests/test.c"
-      ]
-    },
-    {
-      "name": "Genetic-neural-network-for-simple-control",
-      "path": "Genetic-neural-network-for-simple-control",
-      "test_files": [
-        "test/tests/general/test_matrixes.c",
-        "test/tests/general/test_pid_controller.c",
-        "test/tests/general/test_signal_designer.c",
-        "test/tests/general/test_sort.c",
-        "test/tests/general/test_system_builder.c",
-        "test/tests/genetic/test_genetic_operations.c",
-        "test/tests/genetic/test_population.c",
-        "test/tests/neural/test_activation_fnc.c",
-        "test/tests/neural/test_model_system.c",
-        "test/tests/neural/test_neural_network.c",
-        "test/tests/runs/test_full_run.c"
-      ]
+      "test_files": []
     },
     {
       "name": "geofence",
@@ -315,47 +396,15 @@
       ]
     },
     {
-      "name": "Graph-recogniser",
-      "path": "Graph-recogniser",
-      "test_files": [
-        "tests/test-cuckoohash.c",
-        "tests/test-openhash.c",
-        "tests/test-unit.c"
-      ]
-    },
-    {
       "name": "hamta",
       "path": "hamta",
-      "test_files": [
-        "test/test.c"
-      ]
-    },
-    {
-      "name": "Holdem-Odds",
-      "path": "Holdem-Odds",
-      "test_files": [
-        "src/tests/CuTest.c",
-        "src/tests/all_tests.c",
-        "src/tests/test_bucket.c",
-        "src/tests/test_cards.c",
-        "src/tests/test_deck.c",
-        "src/tests/test_hands.c"
-      ]
+      "test_files": []
     },
     {
       "name": "hydra",
       "path": "hydra",
       "test_files": [
         "tests/test.c"
-      ]
-    },
-    {
-      "name": "impcheck",
-      "path": "impcheck",
-      "test_files": [
-        "test/test.c",
-        "test/test_full.c",
-        "test/test_hash.c"
       ]
     },
     {
@@ -383,15 +432,9 @@
       "name": "jccc",
       "path": "jccc",
       "test_files": [
-        "src/codegen/x86/test_x86.c",
-        "src/lexer/test_lexer.c",
-        "src/testing/test_utils.c",
-        "src/util/test_list.c",
-        "src/util/test_util.c",
         "tests/identtest.c",
         "tests/lextest.c",
         "tests/mathtest.c",
-        "tests/optest.c",
         "tests/simplemain.c"
       ]
     },
@@ -399,9 +442,7 @@
       "name": "kairoCompiler",
       "path": "kairoCompiler",
       "test_files": [
-        "tests/main.c",
-        "tests/test.c",
-        "tests/test2.c"
+        "tests/main.c"
       ]
     },
     {
@@ -420,8 +461,7 @@
         "tests/test_io.c",
         "tests/test_parser.c",
         "tests/test_reducer.c",
-        "tests/test_typechecker.c",
-        "tests/tests.c"
+        "tests/test_typechecker.c"
       ]
     },
     {
@@ -442,8 +482,6 @@
       "name": "libbase122",
       "path": "libbase122",
       "test_files": [
-        "test/assertions.c",
-        "test/fuzz.c",
         "test/test.c",
         "test/testconsumer/testconsumer.c"
       ]
@@ -502,11 +540,7 @@
       "path": "libtinyfseq",
       "test_files": [
         "test/TFError_string.c",
-        "test/build.c",
-        "test/fuzz/TFChannelRange_read.c",
-        "test/fuzz/TFCompressionBlock_read.c",
-        "test/fuzz/TFHeader_read.c",
-        "test/fuzz/TFVarHeader_read.c"
+        "test/build.c"
       ]
     },
     {
@@ -542,32 +576,11 @@
       ]
     },
     {
-      "name": "Linear-Algebra-C",
-      "path": "Linear-Algebra-C",
-      "test_files": [
-        "test.c"
-      ]
-    },
-    {
       "name": "ljmm",
       "path": "ljmm",
       "test_files": [
         "test/test_001.c",
         "test/test_002.c"
-      ]
-    },
-    {
-      "name": "LTRE",
-      "path": "LTRE",
-      "test_files": [
-        "test.c"
-      ]
-    },
-    {
-      "name": "Math-Library-in-C",
-      "path": "Math-Library-in-C",
-      "test_files": [
-        "test/tests.c"
       ]
     },
     {
@@ -583,16 +596,6 @@
       "test_files": [
         "testmdb.c",
         "testmdb_int.c"
-      ]
-    },
-    {
-      "name": "Megalania",
-      "path": "Megalania",
-      "test_files": [
-        "tests/main.c",
-        "tests/max_heap_test.c",
-        "tests/packet_slab_undo_stack_test.c",
-        "tests/substring_enumerator_test.c"
       ]
     },
     {
@@ -626,20 +629,6 @@
       ]
     },
     {
-      "name": "NandC",
-      "path": "NandC",
-      "test_files": [
-        "tests/test.c"
-      ]
-    },
-    {
-      "name": "Phills_DHT",
-      "path": "Phills_DHT",
-      "test_files": [
-        "src/test/unit_tests/01_dht.c"
-      ]
-    },
-    {
       "name": "quadtree",
       "path": "quadtree",
       "test_files": [
@@ -652,11 +641,6 @@
       "test_files": [
         "card_test.c"
       ]
-    },
-    {
-      "name": "RBench",
-      "path": "RBench",
-      "test_files": []
     },
     {
       "name": "rbtree-lab",
@@ -681,13 +665,6 @@
       "path": "rect_pack_h",
       "test_files": [
         "test/test.c"
-      ]
-    },
-    {
-      "name": "Remimu",
-      "path": "Remimu",
-      "test_files": [
-        "my_regex_test.c"
       ]
     },
     {
@@ -721,48 +698,12 @@
       ]
     },
     {
-      "name": "Simple-Config",
-      "path": "Simple-Config",
-      "test_files": [
-        "test/test.c",
-        "test/test_get.c",
-        "test/test_load.c",
-        "test/test_parse.c",
-        "test/test_print.c",
-        "test/utils.c"
-      ]
-    },
-    {
-      "name": "Simple-Sparsehash",
-      "path": "Simple-Sparsehash",
-      "test_files": [
-        "src/test.c"
-      ]
-    },
-    {
       "name": "simple_lang",
       "path": "simple_lang",
       "test_files": [
         "Tests/test_compiler.c",
         "Tests/test_lexer.c",
-        "Tests/test_parser.c",
-        "tests/test_compiler.c",
-        "tests/test_lexer.c",
-        "tests/test_parser.c"
-      ]
-    },
-    {
-      "name": "SimpleXML",
-      "path": "SimpleXML",
-      "test_files": [
-        "test.c"
-      ]
-    },
-    {
-      "name": "SlothLang",
-      "path": "SlothLang",
-      "test_files": [
-        "tests.c"
+        "Tests/test_parser.c"
       ]
     },
     {
@@ -801,15 +742,6 @@
       ]
     },
     {
-      "name": "VaultSync",
-      "path": "VaultSync",
-      "test_files": [
-        "test/main_test.c",
-        "test/unity/unity.c",
-        "test/vm/repository_test.c"
-      ]
-    },
-    {
       "name": "vec",
       "path": "vec",
       "test_files": [
@@ -821,14 +753,6 @@
       "path": "worsp",
       "test_files": [
         "tests/test.c"
-      ]
-    },
-    {
-      "name": "XOpt",
-      "path": "XOpt",
-      "test_files": [
-        "test/macro-test.c",
-        "test/simple-test.c"
       ]
     }
   ]

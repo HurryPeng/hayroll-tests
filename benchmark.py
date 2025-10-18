@@ -1,16 +1,23 @@
 import json
-import os
 import subprocess
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 
-def run(command, cwd=None):
+def run(command, cwd=None, timeout=30):
     try:
         result = subprocess.run(
-            command, cwd=cwd, shell=True, capture_output=True, text=True
+            command,
+            cwd=cwd,
+            shell=True,
+            capture_output=True,
+            text=True,
+            timeout=timeout,
         )
         success = result.returncode == 0
         return success, result.stdout, result.stderr
+    except subprocess.TimeoutExpired as e:
+        return False, e.stdout or "", f"timed out after {timeout}s"
     except Exception as e:
         return False, "", str(e)
 
@@ -22,14 +29,14 @@ root_dir = Path.cwd()
 with open("metadata.json") as file:
     benchmark_metadata = json.load(file)
 
-for program in benchmark_metadata["programs"]:
+
+def process_program(program):
     name = program["name"]
-    path = program["path"]
+    path = Path(program["path"])
     tests = program["test_files"]
+    program_dir = root_dir / "CBench" / path
 
     print(f"Processing '{name}'")
-
-    os.chdir(Path("CBench") / path)
 
     program_result = {
         "status": "passed",
@@ -37,39 +44,50 @@ for program in benchmark_metadata["programs"]:
         "test_results": {},
     }
 
-    success, out, err = run("bear -- make")
-    if not success:
+    def fail(stage, error):
         program_result["status"] = "failed"
-        program_result["failed_stage"] = "make"
-        program_result["error"] = err
-        results[name] = program_result
-        os.chdir(root_dir)
-        continue
+        program_result["failed_stage"] = stage
+        program_result["error"] = error
 
+    run("make clean", cwd=program_dir)
+    success, out, err = run("bear -- make", cwd=program_dir)
+    if not success:
+        fail("make", err)
+        return name, program_result
+
+    compile_commands_path = program_dir / "compile_commands.json"
+    if not compile_commands_path.exists():
+        fail("make", "compile_commands.json not found")
+        return name, program_result
+    # Read compile_commands.json. If it's simply "[]", treat it as failure.
+    with compile_commands_path.open() as cc_file:
+        cc_content = cc_file.read()
+        if cc_content.strip() == "[]":
+            fail("make", "compile_commands.json is empty")
+            return name, program_result
+
+    run("rm -rf ./c2rust_out", cwd=program_dir)
     success, out, err = run(
-        "c2rust transpile --emit-build-files compile_commands.json"
+        "c2rust transpile --emit-build-files compile_commands.json -o c2rust_out",
+        cwd=program_dir,
     )
     if not success:
-        program_result["status"] = "failed"
-        program_result["failed_stage"] = "transpile"
-        program_result["error"] = err
-        results[name] = program_result
-        os.chdir(root_dir)
-        continue
+        fail("transpile", err)
+        return name, program_result
 
-    success, out, err = run("cargo build --release")
+    cargo_dir = program_dir / "c2rust_out"
+    success, out, err = run("cargo build", cwd=cargo_dir)
     if not success:
-        program_result["status"] = "failed"
-        program_result["failed_stage"] = "rust_build"
-        program_result["error"] = err
-        results[name] = program_result
-        os.chdir(root_dir)
-        continue
+        fail("rust_build", err)
+        return name, program_result
 
     for test_file in tests:
         exe_name = Path(test_file).stem + "_exe"
-        compile_cmd = f"gcc -o {exe_name} {test_file} -Isrc -Ltarget/release -lc2rust_out -ldl -lpthread -lm"
-        success, out, err = run(compile_cmd)
+        compile_cmd = (
+            f"gcc -o {exe_name} {test_file} -Isrc -Lc2rust_out/target/debug "
+            "-lc2rust_out -ldl -lpthread -lm"
+        )
+        success, out, err = run(compile_cmd, cwd=program_dir)
         if not success:
             program_result["test_results"][test_file] = {
                 "status": "link_failed",
@@ -79,7 +97,7 @@ for program in benchmark_metadata["programs"]:
             program_result["failed_stage"] = "link"
             continue
 
-        success, out, err = run(f"./{exe_name}")
+        success, out, err = run(f"./{exe_name}", cwd=program_dir)
         if success:
             program_result["test_results"][test_file] = {"status": "passed"}
         else:
@@ -91,10 +109,19 @@ for program in benchmark_metadata["programs"]:
             program_result["status"] = "failed"
             program_result["failed_stage"] = "test"
 
-    results[name] = program_result
-    os.chdir(root_dir)
+    return name, program_result
+
+
+with ThreadPoolExecutor(max_workers=16) as executor:
+    futures = [
+        executor.submit(process_program, program)
+        for program in benchmark_metadata["programs"]
+    ]
+    for future in futures:
+        name, program_result = future.result()
+        results[name] = program_result
 
 with open("benchmark_summary.json", "w") as file:
-    json.dump(results, file)
+    json.dump(results, file, indent=4)
 
 print("Finished")
