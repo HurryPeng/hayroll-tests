@@ -34,6 +34,7 @@ def process_program(program):
     name = program["name"]
     path = Path(program["path"])
     tests = program["test_files"]
+    sub_tests = program.get("sub_test_files", [])
     program_dir = root_dir / "CBench" / path
 
     print(f"Processing '{name}'")
@@ -83,8 +84,9 @@ def process_program(program):
 
     for test_file in tests:
         exe_name = Path(test_file).stem + "_exe"
+        sources = " ".join([test_file] + sub_tests)
         compile_cmd = (
-            f"gcc -o {exe_name} {test_file} -Isrc -Lc2rust_out/target/debug "
+            f"gcc -o {exe_name} {sources} -Isrc -Lc2rust_out/target/debug "
             "-lc2rust_out -ldl -lpthread -lm"
         )
         success, out, err = run(compile_cmd, cwd=program_dir)

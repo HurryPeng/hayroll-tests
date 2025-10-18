@@ -21,8 +21,9 @@ def has_int_main(file_path):
 
 
 def find_test_files(project_path):
-    """Find all test .c files in a project directory."""
+    """Find test .c files and bucket them by whether they expose int main."""
     test_files = []
+    sub_test_files = []
     project_dir = Path(project_path)
 
     # First look for files in test/tests directories
@@ -44,8 +45,10 @@ def find_test_files(project_path):
             rel_path = file.relative_to(project_dir)
             rel_path_str = str(rel_path).replace("\\", "/")
 
-            if rel_path_str not in seen_files and has_int_main(file):
-                test_files.append(rel_path_str)
+            if rel_path_str not in seen_files:
+                (test_files if has_int_main(file) else sub_test_files).append(
+                    rel_path_str
+                )
                 seen_files.add(rel_path_str)
 
     # Process test name patterns
@@ -54,18 +57,22 @@ def find_test_files(project_path):
             rel_path = file.relative_to(project_dir)
             rel_path_str = str(rel_path).replace("\\", "/")
 
-            if rel_path_str not in seen_files and has_int_main(file):
-                test_files.append(rel_path_str)
+            if rel_path_str not in seen_files:
+                (test_files if has_int_main(file) else sub_test_files).append(
+                    rel_path_str
+                )
                 seen_files.add(rel_path_str)
 
     # Also check for test.c in root
     root_test = project_dir / "test.c"
     if root_test.exists():
         rel_path_str = "test.c"
-        if rel_path_str not in seen_files and has_int_main(root_test):
-            test_files.append(rel_path_str)
+        if rel_path_str not in seen_files:
+            (test_files if has_int_main(root_test) else sub_test_files).append(
+                rel_path_str
+            )
 
-    return sorted(test_files)
+    return sorted(test_files), sorted(sub_test_files)
 
 
 def generate_metadata():
@@ -77,12 +84,13 @@ def generate_metadata():
     for project_dir in sorted(cbench_dir.iterdir()):
         if project_dir.is_dir():
             project_name = project_dir.name
-            test_files = find_test_files(project_dir)
+            test_files, sub_test_files = find_test_files(project_dir)
 
             program_entry = {
                 "name": project_name,
                 "path": project_name,
                 "test_files": test_files,
+                "sub_test_files": sub_test_files,
             }
 
             programs.append(program_entry)
