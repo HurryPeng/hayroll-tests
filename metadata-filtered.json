@@ -1,0 +1,343 @@
+{
+  "programs": [
+    {
+      "name": "Holdem-Odds",
+      "path": "Holdem-Odds",
+      "test_files": [
+        "src/tests/all_tests.c"
+      ],
+      "sub_test_files": [
+        "src/tests/CuTest.c",
+        "src/tests/test_bucket.c",
+        "src/tests/test_cards.c",
+        "src/tests/test_deck.c",
+        "src/tests/test_hands.c"
+      ]
+    },
+    {
+      "name": "Linear-Algebra-C",
+      "path": "Linear-Algebra-C",
+      "test_files": [
+        "test.c"
+      ],
+      "sub_test_files": []
+    },
+    {
+      "name": "NandC",
+      "path": "NandC",
+      "test_files": [
+        "tests/test.c"
+      ],
+      "sub_test_files": []
+    },
+    {
+      "name": "Simple-Config",
+      "path": "Simple-Config",
+      "test_files": [
+        "test/test.c"
+      ],
+      "sub_test_files": [
+        "test/test_get.c",
+        "test/test_load.c",
+        "test/test_parse.c",
+        "test/test_print.c",
+        "test/utils.c"
+      ]
+    },
+    {
+      "name": "SlothLang",
+      "path": "SlothLang",
+      "test_files": [
+        "tests.c"
+      ],
+      "sub_test_files": []
+    },
+    {
+      "name": "approxidate",
+      "path": "approxidate",
+      "test_files": [
+        "approxidate-test.c"
+      ],
+      "sub_test_files": []
+    },
+    {
+      "name": "bhshell",
+      "path": "bhshell",
+      "test_files": [
+        "tests/test.c"
+      ],
+      "sub_test_files": []
+    },
+    {
+      "name": "bitset",
+      "path": "bitset",
+      "test_files": [
+        "tests/test_bitset.c"
+      ],
+      "sub_test_files": []
+    },
+    {
+      "name": "btree-map",
+      "path": "btree-map",
+      "test_files": [
+        "tests/test.c"
+      ],
+      "sub_test_files": []
+    },
+    {
+      "name": "c-aces",
+      "path": "c-aces",
+      "test_files": [
+        "tests/main-test.c"
+      ],
+      "sub_test_files": [
+        "tests/aces-internal-test.c",
+        "tests/common-test.c",
+        "tests/matrix-test.c",
+        "tests/polynomial-test.c"
+      ]
+    },
+    {
+      "name": "c-string",
+      "path": "c-string",
+      "test_files": [
+        "tests/example.c",
+        "tests/test_string_t.c"
+      ],
+      "sub_test_files": []
+    },
+    {
+      "name": "cJSON",
+      "path": "cJSON",
+      "test_files": [
+        "tests/main.c"
+      ],
+      "sub_test_files": []
+    },
+    {
+      "name": "carrays",
+      "path": "carrays",
+      "test_files": [
+        "tests/test.c"
+      ],
+      "sub_test_files": []
+    },
+    {
+      "name": "chtrie",
+      "path": "chtrie",
+      "test_files": [
+        "tests/test.c"
+      ],
+      "sub_test_files": []
+    },
+    {
+      "name": "cissy",
+      "path": "cissy",
+      "test_files": [
+        "test/test_csvfield.c",
+        "test/test_csvline.c",
+        "test/test_range.c"
+      ],
+      "sub_test_files": []
+    },
+    {
+      "name": "clog",
+      "path": "clog",
+      "test_files": [
+        "tests/clog_test_c.c"
+      ],
+      "sub_test_files": []
+    },
+    {
+      "name": "coroutine",
+      "path": "coroutine",
+      "test_files": [
+        "tests/test.c"
+      ],
+      "sub_test_files": []
+    },
+    {
+      "name": "cset",
+      "path": "cset",
+      "test_files": [
+        "tests/test.c"
+      ],
+      "sub_test_files": []
+    },
+    {
+      "name": "emlang",
+      "path": "emlang",
+      "test_files": [
+        "tests/test.c"
+      ],
+      "sub_test_files": []
+    },
+    {
+      "name": "expr",
+      "path": "expr",
+      "test_files": [
+        "test.c"
+      ],
+      "sub_test_files": []
+    },
+    {
+      "name": "file2str",
+      "path": "file2str",
+      "test_files": [],
+      "sub_test_files": [
+        "tests/CuTest.c",
+        "tests/test_file2str.c"
+      ]
+    },
+    {
+      "name": "fs_c",
+      "path": "fs_c",
+      "test_files": [
+        "test.c"
+      ],
+      "sub_test_files": []
+    },
+    {
+      "name": "geofence",
+      "path": "geofence",
+      "test_files": [
+        "tests/test.c"
+      ],
+      "sub_test_files": []
+    },
+    {
+      "name": "hamta",
+      "path": "hamta",
+      "test_files": [],
+      "sub_test_files": [
+        "test/test.c"
+      ]
+    },
+    {
+      "name": "hydra",
+      "path": "hydra",
+      "test_files": [
+        "tests/test.c"
+      ],
+      "sub_test_files": []
+    },
+    {
+      "name": "inversion_list",
+      "path": "inversion_list",
+      "test_files": [
+        "tests/inversion-list/test-clone.c",
+        "tests/inversion-list/test-complement.c",
+        "tests/inversion-list/test-couple-iterator.c",
+        "tests/inversion-list/test-create-destroy-2.c",
+        "tests/inversion-list/test-create-destroy-3.c",
+        "tests/inversion-list/test-create-destroy-4.c",
+        "tests/inversion-list/test-difference.c",
+        "tests/inversion-list/test-equals.c",
+        "tests/inversion-list/test-getters.c",
+        "tests/inversion-list/test-intersection.c",
+        "tests/inversion-list/test-iterator.c",
+        "tests/inversion-list/test-member.c",
+        "tests/inversion-list/test-struct.c",
+        "tests/inversion-list/test-to-string.c",
+        "tests/inversion-list/test-union.c"
+      ],
+      "sub_test_files": []
+    },
+    {
+      "name": "kd3",
+      "path": "kd3",
+      "test_files": [
+        "run_test.c"
+      ],
+      "sub_test_files": []
+    },
+    {
+      "name": "leftpad",
+      "path": "leftpad",
+      "test_files": [
+        "tests.c"
+      ],
+      "sub_test_files": []
+    },
+    {
+      "name": "libpgn",
+      "path": "libpgn",
+      "test_files": [
+        "tests/annotation.c",
+        "tests/comments.c",
+        "tests/coordinate.c",
+        "tests/metadata.c",
+        "tests/moves.c",
+        "tests/pgn.c",
+        "tests/score.c"
+      ],
+      "sub_test_files": []
+    },
+    {
+      "name": "libpsbt",
+      "path": "libpsbt",
+      "test_files": [
+        "test.c"
+      ],
+      "sub_test_files": []
+    },
+    {
+      "name": "libwecan",
+      "path": "libwecan",
+      "test_files": [
+        "tests/src/tests.c"
+      ],
+      "sub_test_files": []
+    },
+    {
+      "name": "quadtree",
+      "path": "quadtree",
+      "test_files": [
+        "test.c"
+      ],
+      "sub_test_files": []
+    },
+    {
+      "name": "rubiksolver",
+      "path": "rubiksolver",
+      "test_files": [
+        "hash/hash_tests.c",
+        "heap/heap_tests.c",
+        "rubik_model_tests.c"
+      ],
+      "sub_test_files": []
+    },
+    {
+      "name": "totp",
+      "path": "totp",
+      "test_files": [
+        "test.c"
+      ],
+      "sub_test_files": []
+    },
+    {
+      "name": "ulidgen",
+      "path": "ulidgen",
+      "test_files": [
+        "tests/test.c"
+      ],
+      "sub_test_files": []
+    },
+    {
+      "name": "utf8",
+      "path": "utf8",
+      "test_files": [
+        "tests/test.c"
+      ],
+      "sub_test_files": []
+    },
+    {
+      "name": "vec",
+      "path": "vec",
+      "test_files": [
+        "tests/test.c"
+      ],
+      "sub_test_files": []
+    }
+  ]
+}
