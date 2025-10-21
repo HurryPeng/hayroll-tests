@@ -53,14 +53,6 @@
       "sub_test_files": []
     },
     {
-      "name": "approxidate",
-      "path": "approxidate",
-      "test_files": [
-        "approxidate-test.c"
-      ],
-      "sub_test_files": []
-    },
-    {
       "name": "bhshell",
       "path": "bhshell",
       "test_files": [
@@ -151,22 +143,6 @@
     {
       "name": "coroutine",
       "path": "coroutine",
-      "test_files": [
-        "tests/test.c"
-      ],
-      "sub_test_files": []
-    },
-    {
-      "name": "cset",
-      "path": "cset",
-      "test_files": [
-        "tests/test.c"
-      ],
-      "sub_test_files": []
-    },
-    {
-      "name": "emlang",
-      "path": "emlang",
       "test_files": [
         "tests/test.c"
       ],
