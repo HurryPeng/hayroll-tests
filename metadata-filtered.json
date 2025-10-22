@@ -1,20 +1,6 @@
 {
   "programs": [
     {
-      "name": "Holdem-Odds",
-      "path": "Holdem-Odds",
-      "test_files": [
-        "src/tests/all_tests.c"
-      ],
-      "sub_test_files": [
-        "src/tests/CuTest.c",
-        "src/tests/test_bucket.c",
-        "src/tests/test_cards.c",
-        "src/tests/test_deck.c",
-        "src/tests/test_hands.c"
-      ]
-    },
-    {
       "name": "Linear-Algebra-C",
       "path": "Linear-Algebra-C",
       "test_files": [
