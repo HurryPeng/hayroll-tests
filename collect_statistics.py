@@ -14,6 +14,12 @@ from typing import Dict, Iterable, List, Tuple
 STATISTICS_FILENAME = "statistics.json"
 
 
+def normalize_total(value: float) -> float | int:
+	if value.is_integer():
+		return int(value)
+	return value
+
+
 def find_statistics_files(search_root: Path) -> Iterable[Path]:
 	"""Yield every statistics.json living directly under a hayroll_out directory."""
 
@@ -23,9 +29,15 @@ def find_statistics_files(search_root: Path) -> Iterable[Path]:
 
 
 
+
+
 def accumulate_statistics(paths: Iterable[Path]) -> Tuple[Dict[str, object], int, List[str]]:
 	totals: Dict[str, float] = {}
 	non_numeric: Dict[str, object] = {}
+	nested_totals: Dict[str, Dict[str, float]] = {}
+	nested_non_numeric: Dict[str, Dict[str, object]] = {}
+	nested_key_order: Dict[str, List[str]] = {}
+	nested_seen_keys: Dict[str, set[str]] = {}
 	ratio_keys: List[str] = []
 	ratio_seen: set[str] = set()
 	key_order: List[str] = []
@@ -51,9 +63,37 @@ def accumulate_statistics(paths: Iterable[Path]) -> Tuple[Dict[str, object], int
 			if value is None:
 				continue
 
+			if isinstance(value, dict):
+				target_totals = nested_totals.setdefault(key, {})
+				target_non_numeric = nested_non_numeric.setdefault(key, {})
+				order = nested_key_order.setdefault(key, [])
+				seen_nested = nested_seen_keys.setdefault(key, set())
+				for inner_key, inner_value in value.items():
+					if inner_key not in seen_nested:
+						order.append(inner_key)
+						seen_nested.add(inner_key)
+
+					if inner_value is None:
+						continue
+
+					if isinstance(inner_value, Real):
+						existing = target_totals.get(inner_key, 0.0)
+						target_totals[inner_key] = existing + float(inner_value)
+					else:
+						stored_nested = target_non_numeric.get(inner_key)
+						if stored_nested is None:
+							target_non_numeric[inner_key] = inner_value
+						elif stored_nested != inner_value:
+							raise ValueError(
+								f"Conflicting values for non-numeric field {key!r}[{inner_key!r}]: {stored_nested!r} vs {inner_value!r}"
+							)
+				continue
+
 			if isinstance(value, Real):
-				totals[key] = totals.get(key, 0) + value
+				existing = totals.get(key, 0.0)
+				totals[key] = existing + float(value)
 			else:
+
 				stored = non_numeric.get(key)
 				if stored is None:
 					non_numeric[key] = value
@@ -65,7 +105,19 @@ def accumulate_statistics(paths: Iterable[Path]) -> Tuple[Dict[str, object], int
 	combined: Dict[str, object] = {}
 	for key in key_order:
 		if key in totals:
-			combined[key] = totals[key]
+			combined[key] = normalize_total(totals[key])
+		elif key in nested_key_order:
+			totals_for_key = nested_totals.get(key, {})
+			non_numeric_for_key = nested_non_numeric.get(key, {})
+			nested_combined: Dict[str, object] = {}
+			for inner_key in nested_key_order[key]:
+				if inner_key in totals_for_key:
+					nested_combined[inner_key] = normalize_total(totals_for_key[inner_key])
+				elif inner_key in non_numeric_for_key:
+					nested_combined[inner_key] = non_numeric_for_key[inner_key]
+				else:
+					nested_combined[inner_key] = None
+			combined[key] = nested_combined
 		elif key in non_numeric:
 			combined[key] = non_numeric[key]
 		else:
@@ -130,7 +182,7 @@ def parse_args(argv: Iterable[str]) -> argparse.Namespace:
 		action="store_true",
 		help="Sort JSON object keys alphabetically in the output.",
 	)
-	return parser.parse_args(argv)
+	return parser.parse_args(list(argv))
 
 
 def main(argv: Iterable[str]) -> int:

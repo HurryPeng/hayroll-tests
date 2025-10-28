@@ -78,7 +78,7 @@ def process_program(program):
         # "c2rust transpile --emit-build-files compile_commands.json -o c2rust_out",
         "~/Hayroll/hayroll transpile compile_commands.json -o hayroll_out",
         cwd=program_dir,
-        timeout=120,
+        timeout=300,
     )
     if not success:
         fail("transpile", err)
