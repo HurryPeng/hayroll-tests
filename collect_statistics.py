@@ -24,7 +24,7 @@ def find_statistics_files(search_root: Path) -> Iterable[Path]:
 	"""Yield every statistics.json living directly under a hayroll_out directory."""
 
 	for path in search_root.rglob(STATISTICS_FILENAME):
-		if path.parent.name == "hayroll_out":
+		if path.parent.name.startswith("hayroll_out"):
 			yield path
 
 
@@ -156,6 +156,34 @@ def recompute_ratios(
 	return result
 
 
+def add_failing_reason_ratios(stats: Dict[str, object]) -> None:
+	"""Enrich failing_reason counts with ratios relative to unseeded macros."""
+
+	failing = stats.get("failing_reasons")
+	macro_total = stats.get("macro")
+	macro_seeded = stats.get("macro_seeded")
+
+	if not isinstance(failing, dict):
+		return
+	if not isinstance(macro_total, Real) or not isinstance(macro_seeded, Real):
+		return
+
+	denominator = macro_total - macro_seeded
+	new_map: Dict[str, object] = {}
+	for reason, count in failing.items():
+		ratio_key = f"{reason}_ratio"
+		ratio_value: float | None
+		if not isinstance(count, Real) or denominator == 0:
+			ratio_value = None
+		else:
+			ratio_value = float(count) / float(denominator)
+
+		new_map[reason] = count
+		new_map[ratio_key] = ratio_value
+
+	stats["failing_reasons"] = new_map
+
+
 def parse_args(argv: Iterable[str]) -> argparse.Namespace:
 	parser = argparse.ArgumentParser(
 		description="Collect and merge HayRoll statistics across CBench projects."
@@ -206,6 +234,7 @@ def main(argv: Iterable[str]) -> int:
 	combined, file_count, ratio_keys = accumulate_statistics(statistics_files)
 	combined["count"] = file_count
 	final_stats = recompute_ratios(combined, ratio_keys)
+	add_failing_reason_ratios(final_stats)
 
 	output_text = json.dumps(final_stats, indent=args.indent, sort_keys=args.sort_keys)
 
