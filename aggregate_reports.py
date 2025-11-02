@@ -12,6 +12,7 @@ from typing import Dict, Iterable, List, Tuple
 
 
 STATISTICS_FILENAME = "statistics.json"
+PERFORMANCE_FILENAME = "performance.json"
 
 
 def normalize_total(value: float) -> float | int:
@@ -24,6 +25,14 @@ def find_statistics_files(search_root: Path) -> Iterable[Path]:
 	"""Yield every statistics.json living directly under a hayroll_out directory."""
 
 	for path in search_root.rglob(STATISTICS_FILENAME):
+		if path.parent.name.startswith("hayroll_out"):
+			yield path
+
+
+def find_performance_files(search_root: Path) -> Iterable[Path]:
+	"""Yield every performance.json living directly under a hayroll_out directory."""
+
+	for path in search_root.rglob(PERFORMANCE_FILENAME):
 		if path.parent.name.startswith("hayroll_out"):
 			yield path
 
@@ -126,6 +135,90 @@ def accumulate_statistics(paths: Iterable[Path]) -> Tuple[Dict[str, object], int
 	return combined, file_count, ratio_keys
 
 
+def aggregate_performance(paths: Iterable[Path]) -> Dict[str, object]:
+	stage_totals: Dict[str, float] = {}
+	stage_weights: Dict[str, float] = {}
+	stage_order: List[str] = []
+	stage_seen: set[str] = set()
+	total_task_weight = 0.0
+	total_ms_weighted = 0.0
+	total_ms_weight = 0.0
+	file_count = 0
+
+	for perf_path in paths:
+		with perf_path.open("r", encoding="utf-8") as handle:
+			data = json.load(handle)
+
+		stages = data.get("stages")
+		task_count = data.get("task_count")
+		total_ms = data.get("total_ms")
+
+		if not isinstance(stages, dict):
+			raise ValueError(f"Performance file {perf_path} is missing stage data.")
+		if not isinstance(task_count, Real):
+			raise ValueError(f"Performance file {perf_path} has non-numeric task_count {task_count!r}.")
+
+		weight = float(task_count)
+		if weight < 0:
+			raise ValueError(f"Performance file {perf_path} has negative task_count {task_count!r}.")
+
+		file_count += 1
+		total_task_weight += weight
+
+		if isinstance(total_ms, Real):
+			total_ms_weighted += float(total_ms) * weight
+			total_ms_weight += weight
+
+		for stage, value in stages.items():
+			if stage not in stage_seen:
+				stage_order.append(stage)
+				stage_seen.add(stage)
+
+			if value is None:
+				continue
+
+			if not isinstance(value, Real):
+				raise ValueError(
+					f"Performance file {perf_path} has non-numeric value {value!r} for stage {stage!r}."
+				)
+
+			stage_totals[stage] = stage_totals.get(stage, 0.0) + float(value) * weight
+			stage_weights[stage] = stage_weights.get(stage, 0.0) + weight
+
+	stage_avgs: Dict[str, float | None] = {}
+	for stage in stage_order:
+		weight = stage_weights.get(stage, 0.0)
+		if weight == 0:
+			stage_avgs[stage] = None
+		else:
+			stage_avgs[stage] = stage_totals.get(stage, 0.0) / weight
+
+	total_stage_sum = sum(value for value in stage_avgs.values() if isinstance(value, Real))
+	stage_output: Dict[str, object] = {}
+	for stage in stage_order:
+		value = stage_avgs[stage]
+		if value is None:
+			stage_output[stage] = None
+			stage_output[f"{stage}_ratio"] = None
+		else:
+			stage_output[stage] = normalize_total(float(value))
+			stage_output[f"{stage}_ratio"] = (value / total_stage_sum) if total_stage_sum else None
+
+	total_ms_avg: float | None
+	if total_ms_weight > 0:
+		total_ms_avg = total_ms_weighted / total_ms_weight
+	else:
+		total_ms_avg = None
+
+	result: Dict[str, object] = {
+		"project_count": file_count,
+		"task_count": normalize_total(float(total_task_weight)) if file_count else 0,
+		"total_ms": normalize_total(float(total_ms_avg)) if total_ms_avg is not None else None,
+		"stages": stage_output,
+	}
+	return result
+
+
 def infer_denominator_key(numerator_key: str) -> str | None:
 	if "_" not in numerator_key:
 		return None
@@ -224,6 +317,13 @@ def main(argv: Iterable[str]) -> int:
 
 	if not search_root.exists():
 		raise SystemExit(f"Search root {search_root} does not exist.")
+
+	performance_files = sorted(find_performance_files(search_root))
+	performance_summary = aggregate_performance(performance_files)
+	performance_output = args.output.parent / "aggregated_performance.json"
+	performance_text = json.dumps(performance_summary, indent=args.indent, sort_keys=args.sort_keys)
+	performance_output.parent.mkdir(parents=True, exist_ok=True)
+	performance_output.write_text(performance_text + "\n", encoding="utf-8")
 
 	statistics_files = sorted(find_statistics_files(search_root))
 	if not statistics_files:
