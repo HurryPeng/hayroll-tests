@@ -6,7 +6,7 @@ The current results of the benchmark can be viewed at [`benchmark_summary.json`]
 
 ## Prerequisites
 
-Requires `CBench` directory from the CRUST benchmark to be copied into this repository.
+Requires `CBench` directory from the [CRUST benchmark](https://github.com/anirudhkhatry/CRUST-bench/tree/c56fc7a67ea00c95a3fce4061e90cc8c99d071ec/datasets) to be copied into this repository.
 
 ## Usage
 
