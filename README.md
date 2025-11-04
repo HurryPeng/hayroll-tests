@@ -16,8 +16,14 @@ To transpile and run tests:
 python benchmark.py
 ```
 
-To view the results:
+To view the pass rate (generates `benchmark_summary.json`):
 
 ```sh
 python analyze.py
+```
+
+To view effectiveness and performance results (generates `aggregated_performance.json` and `aggregated_statistics.json`):
+
+```sh
+python aggregate_reports.py
 ```
