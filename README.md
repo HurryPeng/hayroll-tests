@@ -27,3 +27,15 @@ To view effectiveness and performance results (generates `aggregated_performance
 ```sh
 python aggregate_reports.py
 ```
+
+To generate the LaTeX outcome table:
+
+```sh
+python generate_outcome_table.py aggregated_statistics.json
+```
+
+To generate the LaTeX performance table:
+
+```sh
+python generate_performance_table.py aggregated_performance.json
+```
