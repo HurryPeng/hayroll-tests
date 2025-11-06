@@ -1,0 +1,21 @@
+\begin{table}[t]
+\centering
+\caption{Pipeline performance per component (ms/CU, share of total runtime).}
+\label{tab:perf}
+\begin{tabular}{lr}
+\toprule
+\textbf{Component} & \textbf{Placeholder 1} \\
+\midrule
+Pioneer (symbolic eval) & 325 (5\%) \\
+Splitter & 524 (7\%) \\
+Maki (C macro analysis) & 4821 (67\%) \\
+Seeder & 29 (0\%) \\
+C2Rust & 408 (6\%) \\
+Reaper & 546 (8\%) \\
+Merger & 147 (2\%) \\
+Cleaner & 359 (5\%) \\
+\addlinespace
+\textbf{Aggregate} & \textbf{7158 (100\%)} \\
+\bottomrule
+\end{tabular}
+\end{table}

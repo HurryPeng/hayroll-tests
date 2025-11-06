@@ -1,0 +1,17 @@
+\begin{table}[t]
+\centering
+\caption{Macro translation outcomes for CRUST-Bench by syntactic category}
+\label{tab:macro-outcomes-curstbench}
+\resizebox{\linewidth}{!}{
+\begin{tabular}{lrrrrrrr}
+\toprule
+\textbf{Outcome} & \textbf{All} & \textbf{Syntactical} & \textbf{Expr.} & \textbf{Stmt.} & \textbf{Decl.} & \textbf{Type} & \textbf{Non-syn.} \\
+\midrule
+Total macros & 1407 & 1142 & 416 & 605 & 32 & 89 & 265 \\[2pt]
+Successfully translated & 699 (50\%) & 699 (61\%) & 351 (84\%) & 348 (58\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) \\
+\quad$\rightarrow$ Rust function & 427 (61\%) & 427 (61\%) & 326 (93\%) & 101 (29\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) \\
+\quad$\rightarrow$ Rust macro & 272 (39\%) & 272 (39\%) & 25 (7\%) & 247 (71\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) \\
+Left expanded & 708 (50\%) & 443 (39\%) & 65 (16\%) & 257 (42\%) & 32 (100\%) & 89 (6\%) & 265 (100\%) \\
+\bottomrule
+\end{tabular}}
+\end{table}

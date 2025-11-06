@@ -1,0 +1,20 @@
+\begin{table}[t]
+\centering
+\caption{Comparison of macro translation failing reasons across benchmarks. Percentages are relative to all rejected macros in each benchmark.}
+\label{tab:failing-reasons}
+\begin{tabular}{lr}
+\toprule
+\textbf{Failing reason} & \textbf{Placeholder 1} \\
+\midrule
+Non-syntactic & 265 (37\%) \\
+Argument unsupported & 218 (31\%) \\
+Uses stringification & 143 (20\%) \\
+Unhygienic & 129 (18\%) \\
+Requires integral constant expression & 126 (18\%) \\
+Unsupported AST kind (type) & 89 (13\%) \\
+Argument non-syntactic & 42 (6\%) \\
+Uses token pasting & 20 (3\%) \\
+Argument has function pointer type & 13 (2\%) \\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,6 +1,6 @@
 # Hayroll Tests
 
-`metadata.json` contains metadata about each program in the CRUST benchmark, and is used to run the transpilation and tests.
+`metadata-filtered.json` contains metadata about each program in the CRUST benchmark, and is used to run the transpilation and tests.
 
 The current results of the benchmark can be viewed at [`benchmark_summary.json`](./benchmark_summary.json).
 
