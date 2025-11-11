@@ -2,19 +2,19 @@
 \centering
 \caption{Pipeline performance per component (ms/kLoC, share of total runtime).}
 \label{tab:perf}
-\begin{tabular}{lr}
+\begin{tabular}{lrr}
 \toprule
-\textbf{Component \ ms/kLoC} & \textbf{Placeholder 1} \\
+\textbf{Component} & \textbf{Placeholder 1} & \textbf{Placeholder 2} \\
 \midrule
-Pioneer (symbolic eval) & 445 (8\%) \\
-Splitter & 553 (10\%) \\
-Maki (C macro analysis) & 2654 (49\%) \\
-Seeder & 16 (0\%) \\
-C2Rust & 279 (5\%) \\
-Reaper & 1014 (19\%) \\
-Merger & 425 (8\%) \\
+Pioneer (symbolic eval) & 72 (6\%) & 1213 (29\%) \\
+Splitter & 97 (8\%) & 401 (10\%) \\
+Maki (C macro analysis) & 649 (56\%) & 1599 (38\%) \\
+Seeder & 4 (0\%) & 34 (1\%) \\
+C2Rust & 57 (5\%) & 267 (6\%) \\
+Reaper & 198 (17\%) & 280 (7\%) \\
+Merger & 84 (7\%) & 417 (10\%) \\
 \addlinespace
-\textbf{Aggregate} & \textbf{1161 (100\%)} \\
+\textbf{Aggregate} & \textbf{1161 (100\%)} & \textbf{4211 (100\%)} \\
 \bottomrule
 \end{tabular}
 \end{table}
