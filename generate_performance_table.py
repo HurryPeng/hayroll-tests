@@ -84,7 +84,7 @@ def build_column_entries(content: dict) -> List[str]:
 def render_table(columns: List[List[str]]) -> str:
 	column_headers = [f"\\textbf{{Placeholder {idx}}}" for idx in range(1, len(columns) + 1)]
 
-	header_line = "\\textbf{Component \\\\ ms/kLoC}"
+	header_line = "\\textbf{Component}"
 	if column_headers:
 		header_line += " & " + " & ".join(column_headers)
 	header_line += " \\\\"  # end of line in LaTeX

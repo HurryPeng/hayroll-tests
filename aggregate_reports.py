@@ -187,8 +187,8 @@ def aggregate_performance(paths: Iterable[Path]) -> Dict[str, object]:
 					f"Performance file {perf_path} has non-numeric value {value!r} for stage {stage!r}."
 				)
 
-			# Convert from ms/task to total ms for this project, then accumulate
-			stage_total_ms = float(value) * task_count_val
+			# Convert from ms to total ms for this project, then accumulate
+			stage_total_ms = float(value)
 			stage_totals[stage] = stage_totals.get(stage, 0.0) + stage_total_ms
 
 	# Convert stage totals to ms/kloc
