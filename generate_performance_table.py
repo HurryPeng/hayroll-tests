@@ -20,7 +20,6 @@ STAGE_LAYOUT = [
 	("C2Rust", "C2Rust"),
 	("Reaper", "Reaper"),
 	("Merger", "Merger"),
-	("Cleaner", "Cleaner"),
 ]
 
 
@@ -75,17 +74,17 @@ def build_column_entries(content: dict) -> List[str]:
 	for stage_key, _label in STAGE_LAYOUT:
 		entries.append(build_stage_entry(stage_data, stage_key))
 
-	total_ms = content.get("total_ms")
-	if total_ms is None:
-		raise ValueError("Input JSON must include 'total_ms'.")
-	entries.append(f"{ms_string(total_ms)} (100\\%)")
+	total_ms_per_kloc = content.get("total_ms_per_kloc")
+	if total_ms_per_kloc is None:
+		raise ValueError("Input JSON must include 'total_ms_per_kloc'.")
+	entries.append(f"{ms_string(total_ms_per_kloc)} (100\\%)")
 	return entries
 
 
 def render_table(columns: List[List[str]]) -> str:
 	column_headers = [f"\\textbf{{Placeholder {idx}}}" for idx in range(1, len(columns) + 1)]
 
-	header_line = "\\textbf{Component}"
+	header_line = "\\textbf{Component \\\\ ms/kLoC}"
 	if column_headers:
 		header_line += " & " + " & ".join(column_headers)
 	header_line += " \\\\"  # end of line in LaTeX
@@ -93,7 +92,7 @@ def render_table(columns: List[List[str]]) -> str:
 	lines: List[str] = [
 		"\\begin{table}[t]",
 		"\\centering",
-		"\\caption{Pipeline performance per component (ms/CU, share of total runtime).}",
+		"\\caption{Pipeline performance per component (ms/kLoC, share of total runtime).}",
 		"\\label{tab:perf}",
 		f"\\begin{{tabular}}{{l{'r' * len(columns)}}}",
 		"\\toprule",

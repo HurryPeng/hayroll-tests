@@ -137,12 +137,11 @@ def accumulate_statistics(paths: Iterable[Path]) -> Tuple[Dict[str, object], int
 
 def aggregate_performance(paths: Iterable[Path]) -> Dict[str, object]:
 	stage_totals: Dict[str, float] = {}
-	stage_weights: Dict[str, float] = {}
 	stage_order: List[str] = []
 	stage_seen: set[str] = set()
-	total_task_weight = 0.0
-	total_ms_weighted = 0.0
-	total_ms_weight = 0.0
+	total_task_count = 0.0
+	total_loc_count = 0.0
+	total_ms_sum = 0.0
 	file_count = 0
 
 	for perf_path in paths:
@@ -151,23 +150,29 @@ def aggregate_performance(paths: Iterable[Path]) -> Dict[str, object]:
 
 		stages = data.get("stages")
 		task_count = data.get("task_count")
+		loc_count = data.get("loc_count")
 		total_ms = data.get("total_ms")
 
 		if not isinstance(stages, dict):
 			raise ValueError(f"Performance file {perf_path} is missing stage data.")
 		if not isinstance(task_count, Real):
 			raise ValueError(f"Performance file {perf_path} has non-numeric task_count {task_count!r}.")
+		if not isinstance(loc_count, Real):
+			raise ValueError(f"Performance file {perf_path} has non-numeric loc_count {loc_count!r}.")
 
-		weight = float(task_count)
-		if weight < 0:
+		task_count_val = float(task_count)
+		loc_count_val = float(loc_count)
+		if task_count_val < 0:
 			raise ValueError(f"Performance file {perf_path} has negative task_count {task_count!r}.")
+		if loc_count_val < 0:
+			raise ValueError(f"Performance file {perf_path} has negative loc_count {loc_count!r}.")
 
 		file_count += 1
-		total_task_weight += weight
+		total_task_count += task_count_val
+		total_loc_count += loc_count_val
 
 		if isinstance(total_ms, Real):
-			total_ms_weighted += float(total_ms) * weight
-			total_ms_weight += weight
+			total_ms_sum += float(total_ms)
 
 		for stage, value in stages.items():
 			if stage not in stage_seen:
@@ -182,21 +187,25 @@ def aggregate_performance(paths: Iterable[Path]) -> Dict[str, object]:
 					f"Performance file {perf_path} has non-numeric value {value!r} for stage {stage!r}."
 				)
 
-			stage_totals[stage] = stage_totals.get(stage, 0.0) + float(value) * weight
-			stage_weights[stage] = stage_weights.get(stage, 0.0) + weight
+			# Convert from ms/task to total ms for this project, then accumulate
+			stage_total_ms = float(value) * task_count_val
+			stage_totals[stage] = stage_totals.get(stage, 0.0) + stage_total_ms
 
-	stage_avgs: Dict[str, float | None] = {}
+	# Convert stage totals to ms/kloc
+	stage_ms_per_kloc: Dict[str, float | None] = {}
 	for stage in stage_order:
-		weight = stage_weights.get(stage, 0.0)
-		if weight == 0:
-			stage_avgs[stage] = None
+		stage_total_ms = stage_totals.get(stage, 0.0)
+		if total_loc_count == 0:
+			stage_ms_per_kloc[stage] = None
 		else:
-			stage_avgs[stage] = stage_totals.get(stage, 0.0) / weight
+			# Convert to ms per 1000 lines of code
+			stage_ms_per_kloc[stage] = stage_total_ms / (total_loc_count / 1000.0)
 
-	total_stage_sum = sum(value for value in stage_avgs.values() if isinstance(value, Real))
+	# Calculate ratios based on ms/kloc values
+	total_stage_sum = sum(value for value in stage_ms_per_kloc.values() if isinstance(value, Real))
 	stage_output: Dict[str, object] = {}
 	for stage in stage_order:
-		value = stage_avgs[stage]
+		value = stage_ms_per_kloc[stage]
 		if value is None:
 			stage_output[stage] = None
 			stage_output[f"{stage}_ratio"] = None
@@ -204,16 +213,18 @@ def aggregate_performance(paths: Iterable[Path]) -> Dict[str, object]:
 			stage_output[stage] = normalize_total(float(value))
 			stage_output[f"{stage}_ratio"] = (value / total_stage_sum) if total_stage_sum else None
 
-	total_ms_avg: float | None
-	if total_ms_weight > 0:
-		total_ms_avg = total_ms_weighted / total_ms_weight
+	# Calculate total ms/kloc
+	total_ms_per_kloc: float | None
+	if total_loc_count > 0:
+		total_ms_per_kloc = total_ms_sum / (total_loc_count / 1000.0)
 	else:
-		total_ms_avg = None
+		total_ms_per_kloc = None
 
 	result: Dict[str, object] = {
 		"project_count": file_count,
-		"task_count": normalize_total(float(total_task_weight)) if file_count else 0,
-		"total_ms": normalize_total(float(total_ms_avg)) if total_ms_avg is not None else None,
+		"task_count": normalize_total(float(total_task_count)) if file_count else 0,
+		"loc_count": normalize_total(float(total_loc_count)) if file_count else 0,
+		"total_ms_per_kloc": normalize_total(float(total_ms_per_kloc)) if total_ms_per_kloc is not None else None,
 		"stages": stage_output,
 	}
 	return result
@@ -261,7 +272,7 @@ def add_failing_reason_ratios(stats: Dict[str, object]) -> None:
 	if not isinstance(macro_total, Real) or not isinstance(macro_seeded, Real):
 		return
 
-	denominator = macro_total - macro_seeded
+	denominator = float(macro_total) - float(macro_seeded)
 	new_map: Dict[str, object] = {}
 	for reason, count in failing.items():
 		ratio_key = f"{reason}_ratio"
@@ -269,7 +280,7 @@ def add_failing_reason_ratios(stats: Dict[str, object]) -> None:
 		if not isinstance(count, Real) or denominator == 0:
 			ratio_value = None
 		else:
-			ratio_value = float(count) / float(denominator)
+			ratio_value = float(count) / denominator
 
 		new_map[reason] = count
 		new_map[ratio_key] = ratio_value
