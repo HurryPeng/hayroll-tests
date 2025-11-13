@@ -2,19 +2,18 @@
 \centering
 \caption{Comparison of macro translation failing reasons across benchmarks. Percentages are relative to all rejected macros in each benchmark.}
 \label{tab:failing-reasons}
-\begin{tabular}{lr}
+\begin{tabular}{lrrr}
 \toprule
-\textbf{Failing reason} & \textbf{Placeholder 1} \\
+\textbf{Failing reason} & \textbf{Placeholder 1} & \textbf{Placeholder 2} & \textbf{Placeholder 3} \\
 \midrule
-Non-syntactic & 265 (37\%) \\
-Argument unsupported & 218 (31\%) \\
-Uses stringification & 143 (20\%) \\
-Unhygienic & 129 (18\%) \\
-Requires integral constant expression & 126 (18\%) \\
-Unsupported AST kind (type) & 89 (13\%) \\
-Argument non-syntactic & 42 (6\%) \\
-Uses token pasting & 20 (3\%) \\
-Argument has function pointer type & 13 (2\%) \\
+Non-syntactical & 265 (37\%) & 7 (26\%) & 840 (76\%) \\
+Argument non-syntactical & 262 (37\%) & 5 (19\%) & 120 (11\%) \\
+Uses stringification & 140 (20\%) & 0 (0\%) & 0 (0\%) \\
+Unhygienic & 131 (18\%) & 17 (63\%) & 164 (15\%) \\
+Requires integral constant expression & 126 (18\%) & 0 (0\%) & 104 (9\%) \\
+Unsupported AST kind & 89 (13\%) & 0 (0\%) & 20 (2\%) \\
+Uses token pasting & 20 (3\%) & 0 (0\%) & 0 (0\%) \\
+Argument function pointer & 13 (2\%) & 0 (0\%) & 0 (0\%) \\
 \bottomrule
 \end{tabular}
 \end{table}

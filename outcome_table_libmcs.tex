@@ -1,0 +1,17 @@
+\begin{table}[t]
+\centering
+\caption{Macro translation outcomes for PLACEHOLDER by syntactic category}
+\label{tab:macro-outcomes-placeholders}
+\resizebox{\linewidth}{!}{
+\begin{tabular}{lrrrrrrr}
+\toprule
+\textbf{Outcome} & \textbf{All} & \textbf{Syntactical} & \textbf{Expr.} & \textbf{Stmt.} & \textbf{Decl.} & \textbf{Type} & \textbf{Non-syn.} \\
+\midrule
+Total macros & 611 & 604 & 223 & 381 & 0 & 0 & 7 \\[2pt]
+Successfully translated & 584 (96\%) & 584 (97\%) & 203 (91\%) & 381 (100\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) \\
+\quad$\rightarrow$ Rust function & 323 (55\%) & 323 (55\%) & 141 (69\%) & 182 (48\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) \\
+\quad$\rightarrow$ Rust macro & 261 (45\%) & 261 (45\%) & 62 (31\%) & 199 (52\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) \\
+Left expanded & 27 (4\%) & 20 (3\%) & 20 (9\%) & 0 (0\%) & 0 (0\%) & 0 (0\%) & 7 (100\%) \\
+\bottomrule
+\end{tabular}}
+\end{table}
