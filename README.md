@@ -8,9 +8,10 @@ The current results of the benchmark can be viewed at [`benchmark_summary.json`]
 
 Requires installing [Hayroll](https://github.com/UW-HARVEST/Hayroll) and its dependencies. Please refer to the Hayroll repository for installation instructions. To make sure you are testing the latest Hayroll and its latest dependencies, please clone the main branch of the Hayroll repository, and when running `prerequisites.bash`, add `--latest`. You do not need to lean how to use Hayroll for this benchmark; the scripts will handle everything.
 
+Requires `CBench` directory from the [CRUST benchmark]. To copy:
 ```sh
-
-Requires `CBench` directory from the [CRUST benchmark](https://github.com/anirudhkhatry/CRUST-bench/tree/c56fc7a67ea00c95a3fce4061e90cc8c99d071ec/datasets) to be copied into this repository.
+./fetch-CBench.bash
+```
 
 ## Usage
 
