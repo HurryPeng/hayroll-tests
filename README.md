@@ -1,8 +1,11 @@
 # Hayroll Tests
 
-`metadata-filtered.json` contains metadata about each program in the CRUST benchmark, and is used to run the transpilation and tests.
+Automated test runner for validating C to Rust transpilation using the C2Rust toolchain.
+It builds, transpiles, and tests C programs from the CRUST benchmark, summarizing results in a structured JSON file.
 
-The current results of the benchmark can be viewed at [`benchmark_summary.json`](./benchmark_summary.json).
+The current results of the benchmark can be viewed at [`test_results.json`](test_results.json).
+
+`metadata-filtered.json` contains metadata about each program in the CRUST benchmark, and is used to run the transpilation and tests.
 
 ## Prerequisites
 
@@ -13,12 +16,20 @@ Requires `CBench` directory from the [CRUST benchmark]. To copy:
 ./fetch-CBench.bash
 ```
 
+Other dependencies include: `python3`, `bear`, `make`, `gcc`, `cargo`, `c2rust`.
+
 ## Usage
 
-To transpile and run tests:
+To transpile all C programs and run their tests:
 
 ```sh
-python benchmark.py
+python3 scripts/run_tests.py
+```
+
+To generate metadata used to run tests:
+
+```sh
+python3 scripts/generate_metadata.py
 ```
 
 To view the pass rate (generates `benchmark_summary.json`):
@@ -44,3 +55,7 @@ To generate the LaTeX performance table:
 ```sh
 python generate_performance_table.py aggregated_performance.json
 ```
+
+## Notes
+
+Currently excluding `skp` program because it always seems to hang.
