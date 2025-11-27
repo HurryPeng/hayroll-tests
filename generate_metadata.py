@@ -42,6 +42,9 @@ def find_test_files(project_path):
     # Process test directory patterns first (higher priority)
     for pattern in test_dir_patterns:
         for file in project_dir.glob(pattern):
+            # skip anything under hayroll_out
+            if "hayroll_out" in file.parts:
+                continue
             rel_path = file.relative_to(project_dir)
             rel_path_str = str(rel_path).replace("\\", "/")
 
@@ -54,6 +57,9 @@ def find_test_files(project_path):
     # Process test name patterns
     for pattern in test_name_patterns:
         for file in project_dir.glob(pattern):
+            # skip anything under hayroll_out
+            if "hayroll_out" in file.parts:
+                continue
             rel_path = file.relative_to(project_dir)
             rel_path_str = str(rel_path).replace("\\", "/")
 
